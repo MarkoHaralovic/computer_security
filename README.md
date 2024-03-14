@@ -1,4 +1,6 @@
-# computer_system_security
+# Computer Security
+
+Git repository for labaratory exercises done on course Computer Security on Faculty of Electrical Enginerring and Computing in Zagreb.
 
 ## Course Link
 [https://www.fer.unizg.hr/en/course/comsec](https://www.fer.unizg.hr/en/course/comsec)
