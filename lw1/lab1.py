@@ -32,7 +32,6 @@ logging.basicConfig(level=logging.INFO)
 FILE_NAME = 'encrypted_passwords.bin'
 SALT_SIZE = 16 #16 bajtova
 IV_SIZE = 16  # 16 bajtova
-PREFIX_SIZE = 16  # 16 bajtova za prefiks
 KEY_ITERATIONS = 1000000
 KEY_SIZE = 32 #256 bitova
 VERIFICATION_TOKEN = b'verify'
@@ -40,20 +39,18 @@ VERIFICATION_TOKEN = b'verify'
 
 
 def initialize_database(master_password):
-    """
-    Inicijalizacija prazne baze zaporki u CSV formatu.
-    """
     if os.path.isfile("encrypted_passwords.bin"):
+        os.remove("encrypted_passwords.bin")
         logging.info("Database already exists, and it will be overwritten")
 
     salt = get_random_bytes(SALT_SIZE)
     iv = get_random_bytes(IV_SIZE)
-    prefix = get_random_bytes(PREFIX_SIZE)
     key = derive_key(master_password, salt)
-    
+
     verification_token_encrypted, verification_tag = encrypt_data(VERIFICATION_TOKEN, key, iv)
+
     data = b''
-    ciphertext, tag = encrypt_data(prefix + data, key, iv)
+    ciphertext, tag = encrypt_data(data, key, iv)
     
     with open(FILE_NAME, 'wb') as file:
         file.write(iv)
@@ -70,13 +67,13 @@ def is_master_password_correct(master_password):
         decrypted_verification_token = decrypt_data(verification_token_encrypted, key, iv, verification_tag)
         if decrypted_verification_token is None:
             return False
+        logging.warning(f"decrypted_verification_token : {decrypted_verification_token}")
+        logging.warning(decrypted_verification_token == VERIFICATION_TOKEN)
         return decrypted_verification_token == VERIFICATION_TOKEN
     except Exception as e:
         logging.error(f"Error during master password verification: {e}")
         return False
-
-
-     
+ 
 def load_encrypted_data(filename, master_password, only_check=False):
     with open(filename, 'rb') as file:
         iv = file.read(IV_SIZE)
@@ -109,15 +106,35 @@ def format_data(data_dict):
     return '\n'.join([f"{address},{password}" for address, password in data_dict.items()]).encode('utf-8')
  
 def save_password(master_password, address, new_password):
-    # Proveri da li je master lozinka ispravna
+    # Check if master password is correct
     if not is_master_password_correct(master_password):
+        logging.error("Master password is incorrect.")
         return False
+    else:
+        logging.info("Master password is correct.")
 
-    iv, salt, existing_data, _ = load_encrypted_data(FILE_NAME, master_password)
-    
-    data_dict = parse_data(existing_data)
+    # Attempt to load existing data
+    iv, salt, existing_data, success = load_encrypted_data(FILE_NAME, master_password, only_check=False)
+    logging.info(f"IV: {iv}")
+    logging.info(f"Salt: {salt}")
+    logging.info(f"Existing Data: {existing_data}")
+    logging.info(f"Success: {success}")
+
+    # if not success:
+    #     logging.error("Failed to load existing data or master password incorrect.")
+    #     return False
+
+    # Parse existing data and update with new password
+    data_dict = {}
+    if existing_data:
+        try:
+            data_dict = parse_data(existing_data.decode('utf-8'))
+        except UnicodeDecodeError as e:
+            logging.error(f"Error decoding existing data: {e}")
+            return False
     data_dict[address] = new_password
 
+    # Encrypt and save the updated data
     data_string = format_data(data_dict)
     key = derive_key(master_password, salt)
     ciphertext, tag = encrypt_data(data_string, key, iv)
@@ -128,15 +145,15 @@ def save_password(master_password, address, new_password):
         file.write(ciphertext)
         file.write(tag)
 
+    logging.info(f"Stored password for {address}.")
     return True
-
 def get_password(master_password, address):
     iv, salt, decrypted_data, success = load_encrypted_data(FILE_NAME, master_password)
-    if not success:
+    if decrypted_data is None:
         logging.info("Master password incorrect or integrity check failed.")
         return None
     
-    data_dict = parse_data(decrypted_data)
+    data_dict = parse_data(decrypted_data.decode('utf-8'))
     return data_dict.get(address)
 
 
@@ -152,13 +169,7 @@ def decrypt_data(ciphertext, key, iv, tag):
         return decrypted_data
     except ValueError:
         return None
-   # plaintext = cipher.decrypt(ciphertext)
-   # try:
-   #    cipher.verify(tag)
-   # except ValueError:
-   #    print("Key incorrect or message corrupted.") 
-   # return plaintext
-
+    
 def derive_key(password, salt, iterations=KEY_ITERATIONS, key_size=KEY_SIZE):
     """
     Funkcija za derivaciju ključa iz zaporke koristeći PBKDF2.
