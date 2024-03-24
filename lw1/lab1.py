@@ -1,7 +1,6 @@
 import os  
 from Crypto.Cipher import AES
 from Crypto.Protocol.KDF import PBKDF2
-from Crypto.Hash import SHA512
 from Crypto.Random import get_random_bytes
 import logging
 import argparse
