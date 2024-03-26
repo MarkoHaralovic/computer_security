@@ -8,7 +8,7 @@ The database is a binary file initialized at a specified location. In cases wher
 
 For each address, only one password can be stored. If a user submits a new password for an address that already has a stored password, the former one is overwritten. The latest password is then saved in the database.
 
-To store a password, the master password is required. It is first derived, and then the data is encrypted using the derived key. These encrypted data are serialized and stored in the binary file, along with a 16-byte salt and an initialization vector.
+To store a password, the master password is required. It is first derived, and then the data is encrypted using the derived key. These encrypted data are serialized and stored in the binary file, along with a 16-byte salt and an initialization vector. I used AES, which is a symmetric key algorithm, meaning it uses the same key for both encryption and decryption.
 
 Retrieving data follows a similar process. The master password is used to access and deserialize the binary record of passwords. Subsequently, the password for the specified address can be obtained.
 

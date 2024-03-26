@@ -6,10 +6,10 @@ Alat je smišljen ako rješenja za zaštićeno spemanje korisničkih zaporki.
 
 Pomoću glavne zaporke (master password), koja se derivira PBKDF2  funkcijom za deriviranje ključa,
 u bazu se spremaju parovi adresa i lozinka.
-Za dekripciju koristi ključai se i salt, odnosno nasumično generirana vrijednost od 16 bajtova,kako bi se osnažila zaporka.
-Salt se generira funkcijom get_random_bytes biblioteke Crypto
+Za dekripciju ključa koristi se i salt, odnosno nasumično generirana vrijednost od 16 bajtova,kako bi se osnažila zaporka.
+Salt se generira funkcijom get_random_bytes biblioteke Crypto.
 
-Baza je bianrna datoteka, inicijalizira se na željenoj lokaciji, u slučaju postojanja istoimene datoteke na toj lokaciji,
+Baza je binarna datoteka, inicijalizira se na željenoj lokaciji, u slučaju postojanja istoimene datoteke na toj lokaciji,
 ta se prebriše i nova baza se postavlja na istu lokaciju, o čemu je korisnik pravodobno obaviješten.
 Na početku se u bazu sprema salt, inicijalizacoijski vektor te prazan rječnik.
 
@@ -18,7 +18,7 @@ postoji zaporka, prethodna se briše te se posljednja zaporka sprema u bazu poda
 
 Za spremanje je potrebno poslati glavnu zaporku, koja se derivira, a zatim se tim
 deriviranim ključem podaci kriptiraju te serijaliziraju i spremaju u binarnu datoteku, 
-zajedno s 16 bajtnim slatom i inicijalizacijskim vektorom.
+zajedno s 16 bajtnim slatom i inicijalizacijskim vektorom. Koristio se AES, odnosno simetrični algoritam u kojemu se isti ključ koristi i za dekripciju i enkripciju.
 
 Dohvaćanje podataka je slično, pošalje se glavna zaporka pomoću koje se dohvati
 deserijaliziran binarni zapis zaporki te se za određenu adresu dobije zaporka.
