@@ -1,0 +1,13 @@
+<HTML>
+<H1>Test file - www.example.edu</H1>
+<p>This is a starting page of Web servera for SRS lab. (web server www)
+<p>Just a few lines of text...
+<p>bla bla bla
+<br>Horizontal line 
+<hr>
+<ul>
+<li><a href="http://www.example.com">Link to www.example.com</a></li>
+<br>
+<li><a href="http://10.0.0.100:10000">Link to "database" on port 10000</a></li>
+</ul>
+</HTML>

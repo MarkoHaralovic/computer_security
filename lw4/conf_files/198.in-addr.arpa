@@ -1,0 +1,15 @@
+$TTL   60000
+@  IN    SOA     100.51.198.in-addr.arpa. root.100.51.198.in-addr.arpa (
+         2023031501 ; serial
+         28800 ; refresh
+         14400 ; retry
+         3600000 ; expire
+         0 ; default_ttl
+)
+
+@               		IN      NS      www.example.edu.
+www.example.edu.      		IN      A       198.51.100.10
+
+10.100.51.198.in-addr.arpa.	IN	PTR	www.example.edu.
+1.100.51.198.in-addr.arpa.	IN	PTR	FW.example.edu.
+

@@ -1,0 +1,13 @@
+$TTL   60000
+@   IN   SOA     edu. root.edu (
+         2023031501 ; serial
+         28800 ; refresh
+         14400 ; retry
+         3600000 ; expire
+         0 ; default_ttl
+)
+
+edu.               IN   NS  dns.example.edu.
+example.edu.       IN   NS  dns.example.edu.
+dns.example.edu.   IN	A 203.0.113.200
+

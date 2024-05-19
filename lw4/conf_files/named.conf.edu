@@ -1,0 +1,51 @@
+// named.conf
+//
+
+options {
+	directory "/var/named/etc/namedb";
+	dnssec-enable no;
+	dnssec-validation no;
+        allow-recursion { any; };
+        allow-query { any; };
+        allow-query-cache { any; };
+};
+
+key "rndc-key" {
+	algorithm hmac-md5;
+	secret "pUkeN0gBlageylNhNauKdQ==";
+};
+
+controls {
+        inet 127.0.0.1 allow { localhost; } keys { "rndc-key"; };
+};
+
+zone "." {
+	type master;
+	file "root.edu";
+};
+
+zone "edu." {
+	type master;
+	file "edu";
+};
+
+zone "example.edu." {
+	type master;
+	file "example-edu";
+};
+
+zone "0.0.127.IN-ADDR.ARPA" {
+	type master;
+	file "localhost.rev";
+};
+
+zone "113.0.203.IN-ADDR.ARPA" {
+	type master;
+	file "203.in-addr.arpa";
+};
+
+zone "IN-ADDR.ARPA" {
+ 	type master;
+ 	file "in-addr.arpa";
+};
+

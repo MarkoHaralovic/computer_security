@@ -1,0 +1,13 @@
+$TTL   60000
+@   IN   SOA     com. root.com (
+         2023031501 ; serial
+         28800 ; refresh
+         14400 ; retry
+         3600000 ; expire
+         0 ; default_ttl
+)
+
+com.                  IN  NS dns.example.com.
+example.com.          IN  NS dns.example.com.
+dns.example.com.      IN   A 198.51.100.10
+

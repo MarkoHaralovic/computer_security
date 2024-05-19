@@ -1,0 +1,577 @@
+node n0 {
+    type pc
+    network-config {
+	hostname client
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:0b
+	 ip address 192.0.2.20/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/24
+	!
+	ip route 0.0.0.0/0 192.0.2.1
+	!
+    }
+    canvas c1
+    iconcoords {144 528}
+    labelcoords {90 526}
+    services {ssh ftp telnet}
+    interface-peer {eth0 n2}
+}
+
+node n4 {
+    type router
+    model quagga
+    network-config {
+	hostname FW
+	!
+	interface eth2
+	 mac address 42:00:aa:00:00:05
+	 ip address 203.0.113.1/24
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:01
+	 ip address 192.168.1.2/24
+	!
+	interface eth1
+	 ip address 10.0.0.1/24
+	 mac address 42:00:aa:00:00:04
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/24
+	!
+	router rip
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf
+	 network 0.0.0.0/0
+	!
+    }
+    canvas c0
+    iconcoords {408 408}
+    labelcoords {405 436}
+    interface-peer {eth1 n3}
+    services {ssh ftp telnet}
+    interface-peer {eth0 n13}
+    interface-peer {eth2 n10}
+}
+
+node n5 {
+    type host
+    network-config {
+	hostname www
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:06
+	 ip address 203.0.113.100/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/24
+	!
+	ip route 0.0.0.0/0 203.0.113.1
+	!
+    }
+    canvas c0
+    iconcoords {528 120}
+    labelcoords {546 156}
+    services {ssh ftp telnet}
+    interface-peer {eth0 n10}
+}
+
+node n6 {
+    type pc
+    network-config {
+	hostname admin
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:03
+	 ip address 10.0.0.20/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/24
+	!
+	ip route 0.0.0.0/0 10.0.0.1
+	!
+    }
+    canvas c0
+    iconcoords {744 528}
+    labelcoords {696 521}
+    services {ssh ftp telnet}
+    interface-peer {eth0 n3}
+}
+
+node n3 {
+    type lanswitch
+    network-config {
+	hostname sw2
+	!
+    }
+    canvas c0
+    iconcoords {744 408}
+    labelcoords {786 406}
+    interface-peer {e0 n6}
+    interface-peer {e1 n4}
+    interface-peer {e2 n7}
+    interface-peer {e3 n9}
+}
+
+node n7 {
+    type host
+    network-config {
+	hostname database
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:07
+	 ip address 10.0.0.100/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	!
+	ip route 0.0.0.0/0 10.0.0.1
+	!
+    }
+    canvas c0
+    iconcoords {744 120}
+    labelcoords {685 126}
+    interface-peer {eth0 n3}
+    services {ssh ftp telnet}
+}
+
+node n1 {
+    type host
+    network-config {
+	hostname server
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:09
+	 ip address 198.51.100.10/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	!
+	ip route 0.0.0.0/0 198.51.100.1
+	!
+    }
+    canvas c1
+    iconcoords {144 120}
+    labelcoords {93 124}
+    services {ssh ftp telnet}
+    interface-peer {eth0 n8}
+}
+
+node n2 {
+    type router
+    model quagga
+    network-config {
+	hostname r1
+	!
+	interface eth2
+	 mac address 42:00:aa:00:00:0c
+	 ip address 192.0.2.1/24
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:08
+	 ip address 192.168.2.2/24
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:00
+	 ip address 192.168.1.1/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	!
+	router rip
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf
+	 network 0.0.0.0/0
+	!
+    }
+    auto_default_routes enabled
+    canvas c1
+    iconcoords {216 408}
+    labelcoords {178 406}
+    interface-peer {eth0 n12}
+    interface-peer {eth1 n8}
+    interface-peer {eth2 n0}
+}
+
+node n8 {
+    type router
+    model quagga
+    network-config {
+	hostname r2
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:02
+	 ip address 192.168.2.1/24
+	!
+	interface eth1
+	 mac address 42:00:aa:00:00:0a
+	 ip address 198.51.100.1/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	!
+	router rip
+	 redistribute static
+	 redistribute connected
+	 redistribute ospf
+	 network 0.0.0.0/0
+	!
+    }
+    auto_default_routes enabled
+    canvas c1
+    iconcoords {144 288}
+    labelcoords {184 288}
+    interface-peer {eth0 n2}
+    interface-peer {eth1 n1}
+}
+
+node n9 {
+    type pc
+    network-config {
+	hostname pc
+	!
+	interface eth0
+	 ip address 10.0.0.21/24
+	 mac address 42:00:aa:00:00:0d
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	!
+    }
+    auto_default_routes enabled
+    canvas c0
+    iconcoords {816 288}
+    labelcoords {817 254}
+    interface-peer {eth0 n3}
+}
+
+node n10 {
+    type lanswitch
+    network-config {
+	hostname sw1
+	!
+    }
+    canvas c0
+    iconcoords {408 312}
+    labelcoords {458 310}
+    interface-peer {e0 n4}
+    interface-peer {e1 n5}
+    interface-peer {e2 n11}
+}
+
+node n11 {
+    type host
+    network-config {
+	hostname dns
+	!
+	interface eth0
+	 mac address 42:00:aa:00:00:0e
+	 ip address 203.0.113.200/24
+	!
+	interface lo0
+	 type lo
+	 ip address 127.0.0.1/8
+	!
+	ip route 0.0.0.0/0 203.0.113.1
+	!
+    }
+    auto_default_routes enabled
+    canvas c0
+    iconcoords {312 168}
+    labelcoords {312 204}
+    interface-peer {eth0 n10}
+}
+
+node n12 {
+    network-config {
+	hostname n4
+	!
+    }
+    type pseudo
+    canvas c1
+    iconcoords {504 408}
+    labelcoords {504 408}
+    interface-peer {0 n2}
+    mirror n13
+}
+
+node n13 {
+    network-config {
+	hostname n2
+	!
+    }
+    type pseudo
+    canvas c0
+    iconcoords {144 408}
+    labelcoords {144 408}
+    interface-peer {0 n4}
+    mirror n12
+}
+
+link l3 {
+    nodes {n6 n3}
+    bandwidth 0
+}
+
+link l5 {
+    nodes {n3 n4}
+    bandwidth 0
+}
+
+link l6 {
+    nodes {n7 n3}
+    bandwidth 0
+}
+
+link l1 {
+    nodes {n8 n2}
+    bandwidth 0
+}
+
+link l2 {
+    nodes {n1 n8}
+    bandwidth 0
+}
+
+link l7 {
+    nodes {n0 n2}
+    bandwidth 0
+}
+
+link l8 {
+    nodes {n9 n3}
+    bandwidth 0
+}
+
+link l4 {
+    nodes {n10 n4}
+    bandwidth 0
+}
+
+link l9 {
+    nodes {n5 n10}
+    bandwidth 0
+}
+
+link l10 {
+    nodes {n10 n11}
+    bandwidth 0
+}
+
+link l11 {
+    mirror l12
+    nodes {n2 n12}
+}
+
+link l12 {
+    mirror l11
+    nodes {n4 n13}
+}
+
+annotation a1 {
+    type text
+    iconcoords {61 39}
+    label {Internet}
+    labelcolor black
+    font {-family {DejaVu Sans} -size 13 -weight normal -slant roman -underline 0 -overstrike 0}
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a2 {
+    type rectangle
+    iconcoords {641 63 855 569}
+    color #ffffff
+    bordercolor #808080
+    width 2
+    canvas c0
+}
+
+annotation a3 {
+    type text
+    iconcoords {160 39}
+    label {LAN}
+    labelcolor black
+    font {-family {DejaVu Sans} -size 13 -weight normal -slant roman -underline 0 -overstrike 0}
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a4 {
+    type text
+    iconcoords {247 79}
+    label {DMZ}
+    labelcolor black
+    font {-family {DejaVu Sans} -size 13 -weight normal -slant roman -underline 0 -overstrike 0}
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a5 {
+    type rectangle
+    iconcoords {39 62 214 210}
+    color #ffffff
+    bordercolor #0e940e
+    width 2
+    canvas c1
+}
+
+annotation a0 {
+    type text
+    iconcoords {69 79}
+    label {www.example.com}
+    labelcolor black
+    font {TkTextFont}
+    canvas c1
+}
+
+annotation a6 {
+    type text
+    iconcoords {170 122}
+    label {HTTP
+DNS
+SSH}
+    labelcolor black
+    font {TkTextFont}
+    canvas c1
+}
+
+annotation a7 {
+    type rectangle
+    iconcoords {228 63 574 261}
+    color #ffffff
+    bordercolor #0e940e
+    width 2
+    canvas c0
+}
+
+annotation a8 {
+    type text
+    iconcoords {431 79}
+    label {www.example.edu}
+    labelcolor black
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a10 {
+    type text
+    iconcoords {460 120}
+    label {HTTP
+SSH}
+    labelcolor black
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a11 {
+    type text
+    iconcoords {772 108}
+    label {HTTP
+SSH}
+    labelcolor black
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a9 {
+    type freeform
+    iconcoords {134 10 137 12 137 14 139 13 144 18 143 39 144 53 147 72 152 85 155 89 156 101 153 112 151 141 153 160 155 161 158 173 160 173 163 181 165 186 165 205 161 227 162 243 178 288 178 301 175 305 176 309 170 327 170 340 174 354 179 365 187 381 191 397 190 409 188 424 186 434 185 437 183 456 183 487 188 498 190 509 184 517 172 543 169 555 169 567 172 583 174 594 175 597 175 596}
+    color blue
+    width 2
+    canvas c0
+}
+
+annotation a12 {
+    type text
+    iconcoords {657 83}
+    label {Private}
+    labelcolor black
+    font {-family {DejaVu Sans} -size 13 -weight normal -slant roman -underline 0 -overstrike 0}
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a13 {
+    type text
+    iconcoords {236 125}
+    label {dns.example.edu}
+    labelcolor black
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a14 {
+    type text
+    iconcoords {250 168}
+    label {DNS
+SSH}
+    labelcolor black
+    font {TkTextFont}
+    canvas c0
+}
+
+annotation a15 {
+    type text
+    iconcoords {308 40}
+    label {Internet}
+    labelcolor black
+    font {-family {DejaVu Sans} -size 13 -weight normal -slant roman -underline 0 -overstrike 0}
+    font {TkTextFont}
+    canvas c1
+}
+
+annotation a16 {
+    type text
+    iconcoords {427 38}
+    label {LAN}
+    labelcolor black
+    font {-family {DejaVu Sans} -size 13 -weight normal -slant roman -underline 0 -overstrike 0}
+    font {TkTextFont}
+    canvas c1
+}
+
+annotation a17 {
+    type freeform
+    iconcoords {393 19 396 21 396 23 398 22 403 27 402 48 403 62 406 81 411 94 414 98 415 110 412 121 410 150 412 169 414 170 417 182 419 182 422 190 424 195 424 214 420 236 421 252 437 297 437 310 434 314 435 318 429 336 429 349 433 363 438 374 446 390 450 406 449 418 447 433 445 443 444 446 442 465 442 496 447 507 449 518 443 526 431 552 428 564 428 576 431 592 433 603 434 606 434 605}
+    color blue
+    width 2
+    canvas c1
+}
+
+canvas c0 {
+    name {LAN}
+    size {900 620}
+}
+
+canvas c1 {
+    name {Internet}
+}
+
+option show {
+    interface_names yes
+    ip_addresses yes
+    ipv6_addresses no
+    node_labels yes
+    link_labels yes
+    background_images no
+    annotations yes
+    hostsAutoAssign no
+    grid no
+    iconSize normal
+    zoom 1.0
+}
+

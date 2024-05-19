@@ -1,0 +1,10 @@
+<HTML>
+<H1>Test file - www.example.com</H1>
+<p>This is a starting page of Web server for example.com domain
+<hr>
+<ul>
+<li><a href="http://www.example.edu">Link to EDU</a></li>
+<br>
+<li><a href="http://10.0.0.100:10000">Link to "database" on port 10000</a></li>
+</ul>
+</HTML>

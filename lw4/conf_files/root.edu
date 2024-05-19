@@ -1,0 +1,17 @@
+$TTL   60000
+@               IN      SOA     aRootServer. root.aRootServer (
+         2002102801 ; serial
+         28800 ; refresh
+         14400 ; retry
+         3600000 ; expire
+         0 ; default_ttl
+)
+
+@                   IN      NS      dns.example.edu.
+edu.                IN      NS      dns.example.edu.
+dns.example.edu.    IN      A	    203.0.113.200
+
+
+com.                IN      NS      dns.example.com.
+dns.example.com.    IN      A	    198.51.100.10
+

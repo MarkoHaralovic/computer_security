@@ -1,0 +1,15 @@
+$TTL   60000
+@  IN    SOA     113.0.203.in-addr.arpa. root.113.0.203.in-addr.arpa (
+         2023031501 ; serial
+         28800 ; refresh
+         14400 ; retry
+         3600000 ; expire
+         0 ; default_ttl
+)
+
+@               		IN      NS      www.example.edu.
+www.example.edu.      		IN      A       198.51.100.10
+
+10.113.0.203.in-addr.arpa.	IN	PTR	server.example.com.
+20.113.0.203.in-addr.arpa.	IN	PTR	client.example.com.
+
