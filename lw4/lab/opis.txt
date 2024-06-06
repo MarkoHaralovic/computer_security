@@ -1,0 +1,69 @@
+$ git clone https://gitlab.tel.fer.hr/srs/srs-lab.git
+$ cd srs-lab/Lab4
+$ sudo imunes NETWORK.imn
+In NETWORK.imn ran Experiment->Execute
+$ sudo ./prepare.sh 
+----------------------------------------------------------------
+$ sudo himage client
+client# telnet 203.0.113.10
+   ->OUTPUT: Unable to connect to remote host: No route to host.
+   ->OUTPUT IMAGE : /images/telnet-203.jpg
+client# ssh 203.0.113.10
+   ->OUTPUT: Unable to connect to remote host: No route to host.
+   ->OUTPUT IMAGE : /images/ssh-203.jpg
+----------------------------------------------------------------
+# sudo himage client
+client# curl http://www.example.edu/index.html
+   ->TERMINAL OUTPUT: /images/curl-example.png
+   ->WIRESHARK OUTPUT : /images/curl-example-ws.png
+
+client# curl http://203.0.113.100/index.html
+   ->TERMINAL OUTPUT : /images/curl-203.jpg
+
+# sudo  himage pc
+pc# curl http://www.example.edu/index.html
+   ->TERMINAL OUTPUT : Could not resolve host: www.example.edu
+pc# curl http://10.0.0.100:10000/index.html
+   ->TERMINAL OUTPUT : /images/curl-10-0.png
+
+# sudo himage client
+client# host www.example.com
+   ->TERMINAL OUTPUT : www.example.com has address 198.51.100.10
+----------------------------------------------------------------
+$ sudo himage client nmap -n -Pn "-p20-25,53,80,443" 203.0.113.100
+   -OUTPUT: nmap1.png
+
+$ sudo himage pc nmap -n -Pn "-p20-25,53,80,443" 203.0.113.100
+   -OUTPUT:  same as nmap1.png
+----------------------------------------------------------------
+# TCP Scan
+$ sudo himage client nmap -sT 203.0.113.100
+$ sudo himage pc nmap -sT 203.0.113.100
+
+# UDP Scan 
+$ sudo himage client nmap -sU -p 53,67,68,123 203.0.113.100
+$ sudo himage pc nmap -sU -p 53,67,68,123 203.0.113.100
+
+#TCP syn Scan
+$ sudo himage client nmap -sS 203.0.113.100
+$ sudo himage pc nmap -sS 203.0.113.100
+
+# OS detection
+$ sudo himage client nmap -O 203.0.113.100
+$ sudo himage pc nmap -O 203.0.113.100
+
+# service version detection
+$ sudo himage client nmap -sV 203.0.113.100
+$ sudo himage pc nmap -sV 203.0.113.100
+
+# general Scan
+$ sudo himage client nmap -A 203.0.113.100
+$ sudo himage pc nmap -A 203.0.113.100
+----------------------------------------------------------------
+
+$ sudo hcp FW.sh FW:
+$ sudo himage FW sh ./FW.sh (or $ sudo ./install_fw.sh)
+
+---------------------------------------------------------------
+FIREWALL COMMANDS
+-> customized FW.sh in ./FW.sh
