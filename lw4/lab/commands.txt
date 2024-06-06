@@ -60,10 +60,46 @@ $ sudo himage pc nmap -sV 203.0.113.100
 $ sudo himage client nmap -A 203.0.113.100
 $ sudo himage pc nmap -A 203.0.113.100
 ----------------------------------------------------------------
-
-$ sudo hcp FW.sh FW:
-$ sudo himage FW sh ./FW.sh (or $ sudo ./install_fw.sh)
-
----------------------------------------------------------------
 FIREWALL COMMANDS
 -> customized FW.sh in ./FW.sh
+---------------------------------------------------------------
+$ sudo hcp FW.sh FW:
+$ sudo himage FW sh ./FW.sh (or $ sudo ./install_fw.sh)
+---------------------------------------------------------------
+
+In the `syn_scan.pcap` file, there is a part of the network traffic recorded during the "TCP SYN scan" for detecting open access (ports).
+
+Using software tools such as tcpdump, Wireshark, or another, determine:
+
+Open in Wireshark `scan_capture.pcap`
+
+For 1 and 2 run:
+`$ tcp.flags.syn == 1 and tcp.flags.ack == 0`
+
+For 3 run:
+`$ tcp.flags.syn == 1 and tcp.flags.ack == 1`
+
+For 4 run:
+`$ tcp.flags.reset == 1`
+
+1. From which IP addresses is the scanning conducted?
+
+The scanning is conducted from the address 10.26.163.192.
+
+2. Which IP addresses are being scanned?
+
+The address 10.26.163.236 is being scanned.
+
+3. Which scanned TCP accesses (ports) are open?
+
+Open are:
+           port 443 (from 10.26.163.236 to 10.26.163.192),
+           port 80 (from 10.26.163.236 to 10.26.163.192),
+           port 22 (from 10.26.163.236 to 10.26.163.192)
+
+4. Which scanned TCP accesses are closed?
+
+Also closed are:
+           port 443 (from 10.26.163.192 to 10.26.163.236),
+           port 80 (from 10.26.163.192 to 10.26.163.236),
+           port 22 (from 10.26.163.192 to 10.26.163.236)

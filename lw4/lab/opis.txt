@@ -60,10 +60,47 @@ $ sudo himage pc nmap -sV 203.0.113.100
 $ sudo himage client nmap -A 203.0.113.100
 $ sudo himage pc nmap -A 203.0.113.100
 ----------------------------------------------------------------
-
-$ sudo hcp FW.sh FW:
-$ sudo himage FW sh ./FW.sh (or $ sudo ./install_fw.sh)
-
----------------------------------------------------------------
 FIREWALL COMMANDS
 -> customized FW.sh in ./FW.sh
+---------------------------------------------------------------
+$ sudo hcp FW.sh FW:
+$ sudo himage FW sh ./FW.sh (or $ sudo ./install_fw.sh)
+---------------------------------------------------------------
+
+U datoteci syn_scan.pcap se nalazi dio mrežnog prometa snimljenog za vrijeme 
+"TCP SYN scan" otkrivanja otvorenih pristupa (portova).
+
+Uz pomoć programskih alata tcpdump, Wireshark ili nekog trećeg, odredite:
+
+Otvori se u Wiresharku scan_capture.pcap
+
+Za 1 i 2 se pokrene:
+$ tcp.flags.syn == 1 and tcp.flags.ack == 0
+
+Za 3 se pokrene:
+$ tcp.flags.syn == 1 and tcp.flags.ack == 1
+
+Za 4 se pokrene:
+$ tcp.flags.reset == 1
+
+1. S kojih IP adresa se izvodi skeniranje?
+
+Skeniranje se izvodi s adrese 10.26.163.192. 
+
+2. Koje IP adrese se skenira?
+
+Adresu 10.26.163.236.
+
+3. Koji skenirani TCP pristupi (portovi) su otvoreni?
+
+Otvoreni su:
+           port 443 (od 10.26.163.236 do 10.26.163.192),
+           port 80 (od 10.26.163.236 do 10.26.163.192), 
+           port 22 (od 10.26.163.236 do 10.26.163.192)
+
+4. Koji skenirani TCP pristupi su zatvoreni?
+
+Isto su tako zatvoreni:
+           port 443 (od 10.26.163.192 do 10.26.163.236),
+           port 80 (od 10.26.163.192 do 10.26.163.236), 
+           port 22 (od 10.26.163.192 do 10.26.163.236)
