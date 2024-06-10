@@ -1,0 +1,8 @@
+These were errors in the program:
+
+www-->198.51.100.10: UDP port 53 is closed/filtered (should be open)
+www-->198.51.100.10: TCP port 53 is closed/filtered (should be open)
+admin-->198.51.100.10: UDP port 53 is closed/filtered (should be open)
+admin-->198.51.100.10: TCP port 53 is closed/filtered (should be open)
+admin-->198.51.100.10: TCP port 80 is closed/filtered (should be open)
+database-->203.0.113.100: TCP port 80 is open (should be closed/filtered)
